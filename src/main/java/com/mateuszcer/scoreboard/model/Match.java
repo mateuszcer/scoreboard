@@ -53,6 +53,11 @@ public class Match extends Entity {
     }
 
     @Override
+    public String toString() {
+        return "%s %d - %s %d".formatted(homeTeam, homeScore, awayTeam, awayScore);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
