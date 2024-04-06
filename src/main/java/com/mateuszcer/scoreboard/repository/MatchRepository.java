@@ -7,7 +7,7 @@ import com.mateuszcer.scoreboard.model.Match;
 
 public interface MatchRepository {
 
-    void addMatch(Match match);
+    Match saveMatch(Match match);
 
     void removeMatch(Match match);
 

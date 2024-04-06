@@ -1,9 +1,12 @@
 package com.mateuszcer.scoreboard.repository.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.apache.commons.lang3.SerializationUtils;
 
 import com.mateuszcer.scoreboard.model.Match;
 import com.mateuszcer.scoreboard.model.exception.DuplicateMatchException;
@@ -16,25 +19,31 @@ import com.mateuszcer.scoreboard.repository.MatchRepository;
  */
 public class InMemoryMatchRepositoryImpl implements MatchRepository {
 
-    private final Map<String, Match> matches = new HashMap<>();
+    private final Map<String, Match> matches = new ConcurrentHashMap<>();
+
+    private static final AtomicLong counter = new AtomicLong(1);
 
     private String generateKey(String homeTeam, String awayTeam) {
         return "%s_%s".formatted(homeTeam, awayTeam);
     }
 
     /**
-     * Adds a new Match to the map.
+     * Saves a new Match to the map and sets unique ID.
      * If a match with the same home and away team already exists, throws DuplicateMatchException.
      *
      * @param match The Match object to add.
+     * @return new Match object saved to the map with set ID
      * @throws DuplicateMatchException If a match with the same teams already exists.
      */
     @Override
-    public void addMatch(Match match) {
+    public Match saveMatch(Match match) {
         String key = generateKey(match.getHomeTeam(), match.getAwayTeam());
 
         if (!matches.containsKey(key)) {
-            matches.put(key, match);
+            Match toSave = SerializationUtils.clone(match);
+            toSave.setId(counter.getAndIncrement());
+            matches.put(key, toSave);
+            return toSave;
         } else {
             throw new DuplicateMatchException("Match not found for deletion: " + key);
         }

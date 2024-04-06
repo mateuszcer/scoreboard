@@ -1,10 +1,15 @@
 package com.mateuszcer.scoreboard.model;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Match {
+import com.mateuszcer.scoreboard.model.asbtract.Entity;
 
+public class Match extends Entity {
+
+    @Serial
+    private static final long serialVersionUID = 8938107247272980597L;
     private final String homeTeam;
     private final String awayTeam;
     private int homeScore;
@@ -28,23 +33,23 @@ public class Match {
     }
 
     public String getHomeTeam() {
-        return homeTeam;
+        return this.homeTeam;
     }
 
     public String getAwayTeam() {
-        return awayTeam;
+        return this.awayTeam;
     }
 
     public int getHomeScore() {
-        return homeScore;
+        return this.homeScore;
     }
 
     public int getAwayScore() {
-        return awayScore;
+        return this.awayScore;
     }
 
     public LocalDateTime getStartTime() {
-        return startTime;
+        return this.startTime;
     }
 
     @Override
@@ -58,20 +63,20 @@ public class Match {
 
         Match match = (Match) o;
 
-        if (homeScore != match.homeScore || awayScore != match.awayScore || !Objects.equals(homeTeam, match.homeTeam)
-                || !Objects.equals(awayTeam, match.awayTeam)) {
+        if (this.homeScore != match.homeScore || this.awayScore != match.awayScore || !Objects.equals(this.homeTeam,
+                match.homeTeam) || !Objects.equals(this.awayTeam, match.awayTeam)) {
             return false;
         }
-        return startTime.equals(match.startTime);
+        return this.startTime.equals(match.startTime);
     }
 
     @Override
     public int hashCode() {
-        int result = homeTeam != null ? homeTeam.hashCode() : 0;
-        result = 31 * result + (awayTeam != null ? awayTeam.hashCode() : 0);
-        result = 31 * result + homeScore;
-        result = 31 * result + awayScore;
-        result = 31 * result + startTime.hashCode();
+        int result = this.homeTeam != null ? this.homeTeam.hashCode() : 0;
+        result = 31 * result + (this.awayTeam != null ? this.awayTeam.hashCode() : 0);
+        result = 31 * result + this.homeScore;
+        result = 31 * result + this.awayScore;
+        result = 31 * result + this.startTime.hashCode();
         return result;
     }
 }
