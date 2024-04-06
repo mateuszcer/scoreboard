@@ -65,7 +65,7 @@ public class Scoreboard {
      */
     public String getStringSummary() {
         StringBuilder stringBuilder = new StringBuilder();
-        this.matchService.getSummaryByScore().forEach(stringBuilder::append);
+        this.matchService.getSummaryByScore().forEach(match -> stringBuilder.append(match).append('\n'));
         return stringBuilder.toString();
     }
 }
