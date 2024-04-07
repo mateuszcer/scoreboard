@@ -10,6 +10,10 @@
 
 ### Using the Scoreboard library
 
+#### Prerequisites
+* Maven 3.8+
+* Java 17+
+
 To use the Scoreboard library, follow these steps:
 
 1. Clone the Repository
